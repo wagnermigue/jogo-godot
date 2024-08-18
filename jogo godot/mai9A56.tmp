@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfgcaefsdmeeo"]
+
+[ext_resource type="PackedScene" uid="uid://c2si3jstdclba" path="res://prefabs/player.tscn" id="1_c64gh"]
+[ext_resource type="Script" path="res://script/main.gd" id="1_nqstn"]
+[ext_resource type="PackedScene" uid="uid://p7u8uaeie46x" path="res://enemy.tscn" id="1_osjal"]
+[ext_resource type="PackedScene" uid="uid://b4w655n04lck4" path="res://hud.tscn" id="3_bwxkx"]
+
+[node name="main" type="Node2D"]
+position = Vector2(-2, -5)
+script = ExtResource("1_nqstn")
+bug_scene = ExtResource("1_osjal")
+
+[node name="HUD" parent="." instance=ExtResource("3_bwxkx")]
+
+[node name="player" parent="." instance=ExtResource("1_c64gh")]
+position = Vector2(230, 386)
+
+[node name="bugTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="scoreTimer" type="Timer" parent="."]
+
+[node name="startTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="startPosition" type="Marker2D" parent="."]
+position = Vector2(245, 360)
+
+[connection signal="start_game" from="HUD" to="." method="new_game"]
+[connection signal="hit" from="player" to="." method="game_over"]
+[connection signal="timeout" from="bugTimer" to="." method="_on_bug_timer_timeout"]
+[connection signal="timeout" from="scoreTimer" to="." method="_on_score_timer_timeout"]
+[connection signal="timeout" from="startTimer" to="." method="_on_start_timer_timeout"]
