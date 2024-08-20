@@ -4,12 +4,12 @@ extends Node2D
 var score
 
 
-
 func game_over():
 	$bugTimer.stop()
 	$scoreTimer.stop()
 	$HUD.show_game_over()
-	
+	$bgmusic.stop()
+	$gameOverSound.play()
 	
 func new_game():
 	$startTimer.start()
@@ -18,8 +18,9 @@ func new_game():
 	$HUD.update_score(score)
 	$HUD.show_message("Get Ready!")
 	get_tree().call_group("bugs", "queue_free")
+	$bgmusic.play()
 
-func _on_score_timer_timeout():
+func  _on_score_timer_timeout():
 	score += 1 
 	$HUD.update_score(score)
 
